@@ -2,6 +2,11 @@ import mongoose from "mongoose";
 
 const itemSchema = mongoose.Schema(
   {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'User'
+    },
     header: {
       type: String,
       required: [true, "Please add an item header"],

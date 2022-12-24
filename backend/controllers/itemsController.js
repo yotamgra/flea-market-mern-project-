@@ -3,7 +3,7 @@ import asyncHandler from "express-async-handler";
 import Item from "../models/itemModel.js";
 
 //@desc    Get items
-//@route   GET /api/items
+//@route   GET /items
 //@access  Private
 const getItems = asyncHandler(async (req, res) => {
   const items = await Item.find();
@@ -11,7 +11,7 @@ const getItems = asyncHandler(async (req, res) => {
 });
 
 //@desc    Set item
-//@route   POST /api/items
+//@route   POST /items
 //@access  Private
 const setItem = asyncHandler(async (req, res) => {
   if (!req.body.header || !req.body.price) {
@@ -28,7 +28,7 @@ const setItem = asyncHandler(async (req, res) => {
 });
 
 //@desc    Update item
-//@route   PUT /api/item/:id
+//@route   PUT /item/:id
 //@access  Private
 const updateItem = asyncHandler(async (req, res) => {
     const item = await Item.findById(req.params.id);
@@ -43,7 +43,7 @@ const updateItem = asyncHandler(async (req, res) => {
 });
 
 //@desc    Delete item
-//@route   DELETE /api/item/:id
+//@route   DELETE /item/:id
 //@access  Private
 const deleteItem = asyncHandler(async (req, res) => {
     const item = await Item.findById(req.params.id);
