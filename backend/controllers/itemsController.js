@@ -11,6 +11,10 @@ const getItems = asyncHandler(async (req, res) => {
 //@route   POST /api/items
 //@access  Private
 const setItems = asyncHandler(async (req, res) => {
+  if (!req.body.header) {
+    res.status(400);
+    throw new Error("Please add an item header");
+  }
   res.status(200).json({ message: "Set items" });
 });
 
