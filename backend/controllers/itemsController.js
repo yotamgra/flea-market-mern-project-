@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
 
 import Item from "../models/itemModel.js";
+import User from "../models/userModel.js";
 
 //@desc    Get items
 //@route   GET /items
@@ -23,6 +24,7 @@ const setItem = asyncHandler(async (req, res) => {
     price: req.body.price,
     description: req.body.description || "",
     img: req.body.img || "",
+    user: req.user.id,
   });
   res.status(200).json(item);
 });
@@ -31,27 +33,57 @@ const setItem = asyncHandler(async (req, res) => {
 //@route   PUT /item/:id
 //@access  Private
 const updateItem = asyncHandler(async (req, res) => {
-    const item = await Item.findById(req.params.id);
-    if(!item){
-        res.status(400);
+  const item = await Item.findById(req.params.id);
+  if (!item) {
+    res.status(400);
     throw new Error("Item not found");
-    }
-    const updatedItem = await Item.findByIdAndUpdate(req.params.id, req.body, {
-        new: true,
-      });
-      res.status(200).json(updatedItem);
+  }
+
+  const user = await User.findById(req.user.id);
+
+  //Check for user
+  if (!user) {
+    res.status(401);
+    throw new Error("User not found");
+  }
+
+  //Make sure the loggedin user matches the item user
+  if (item.user.toString() !== user.id) {
+    res.status(401);
+    throw new Error("User not authorized");
+  }
+
+  const updatedItem = await Item.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  });
+  res.status(200).json(updatedItem);
 });
 
 //@desc    Delete item
 //@route   DELETE /item/:id
 //@access  Private
 const deleteItem = asyncHandler(async (req, res) => {
-    const item = await Item.findById(req.params.id);
-    if(!item){
-        res.status(400);
+  const item = await Item.findById(req.params.id);
+  if (!item) {
+    res.status(400);
     throw new Error("Item not found");
-    }
-    await item.remove();
+  }
+
+  const user = await User.findById(req.user.id);
+
+  //Check for user
+  if (!user) {
+    res.status(401);
+    throw new Error("User not found");
+  }
+
+  //Make sure the loggedin user matches the item user
+  if (item.user.toString() !== user.id) {
+    res.status(401);
+    throw new Error("User not authorized");
+  }
+
+  await item.remove();
   res.status(200).json({ id: req.params.id });
 });
 
