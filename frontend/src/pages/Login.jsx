@@ -25,7 +25,7 @@ function Login() {
       <section className="heading">
         <h1>
           <FaSignInAlt /> Login
-          <p>Please create an account</p>
+          <p>Login and start trade </p>
         </h1>
       </section>
       <form onSubmit={onSubmit}>
