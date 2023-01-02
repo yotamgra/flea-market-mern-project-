@@ -32,6 +32,8 @@ function Register() {
 
   useEffect(() => {
     if (isError) {
+      console.log("error is Error true");
+      console.log("message", message);
       toast.error(message);
     }
     if (isSuccess || user) {
