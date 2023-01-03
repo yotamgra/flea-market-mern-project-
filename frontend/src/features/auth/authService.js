@@ -4,25 +4,31 @@ const API_URL = "http://localhost:5000/users";
 
 //Register user
 const register = async (userData) => {
-  console.log("befor axios")
-  const response = await axios.post(API_URL, userData);
-  console.log("after axios")
-  if (response.data) {
-    localStorage.setItem("user", JSON.stringify(response.data));
-  }
+  try {
+    const response = await axios.post(API_URL, userData);
 
-  return response.data;
+    if (response.data) {
+      localStorage.setItem("user", JSON.stringify(response.data));
+    }
+
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data);
+  }
 };
 
 //Login user
 const login = async (userData) => {
-  console.log(userData);
-  const response = await axios.post(API_URL + "/login", userData);
+  try {
+    const response = await axios.post(API_URL + "/login", userData);
 
-  if (response.data) {
-    localStorage.setItem("user", JSON.stringify(response.data));
+    if (response.data) {
+      localStorage.setItem("user", JSON.stringify(response.data));
+    }
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data);
   }
-  return response.data;
 };
 
 //Logout user

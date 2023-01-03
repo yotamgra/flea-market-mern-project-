@@ -18,7 +18,7 @@ export const register = createAsyncThunk(
   async (user, thunkAPI) => {
     try {
       console.log("try");
-      return authService.register(user);
+      return await authService.register(user);
     } catch (error) {
       //-----------------------------------------------------------------------------------not reaching here
       console.log("catch");
@@ -37,7 +37,7 @@ export const register = createAsyncThunk(
 //Login user
 export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
   try {
-    return authService.login(user);
+    return await authService.login(user);
   } catch (error) {
 
     const message =
@@ -80,8 +80,8 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = false;
         state.isError = true;
-        // state.message = action.payload;
-        state.message = "test error";
+        state.message = action.payload;
+        // state.message = "test error";
         state.user = null;
       })
       .addCase(login.pending, (state) => {
