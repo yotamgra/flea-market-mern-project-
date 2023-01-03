@@ -80,8 +80,8 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = false;
         state.isError = true;
-        state.message = action.payload;
-        // state.message = "test error";
+        // state.message = action.payload;
+        state.message = "test error";
         state.user = null;
       })
       .addCase(login.pending, (state) => {
